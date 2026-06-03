@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Як вибрати тип початку — вправа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" />
+<style>
+  :root {
+    --green: #7FB63C;
+    --green-deep: #6BA02C;
+    --green-soft: #EFF6E8;
+    --green-soft-2: #E4F0D2;
+    --ink: #1A1A1A;
+    --ink-2: #5C5C5C;
+    --ink-3: #9A9A9A;
+    --line: #E4E4E4;
+    --line-dash: #D6D6D6;
+    --danger: #D9534F;
+    --danger-soft: #FBEDEC;
+    --font-display: 'Montserrat', system-ui, sans-serif;
+    --font-body: 'Open Sans', system-ui, sans-serif;
+    --ease: cubic-bezier(0.22,0.61,0.36,1);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #FFFFFF; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  #root { padding: 28px 20px 32px; }
+
+  .wrap { max-width: 940px; margin: 0 auto; }
+
+  /* header (Rise-style) */
+  .head { text-align: center; margin-bottom: 8px; }
+  .bar {
+    display: block; background: var(--green); color: #fff;
+    font-family: var(--font-display); font-weight: 700; font-size: 15px;
+    letter-spacing: .14em; text-transform: uppercase;
+    padding: 18px 24px; border-radius: 6px; margin-bottom: 40px; line-height: 1.3;
+  }
+  .title {
+    font-family: var(--font-display); font-weight: 800; color: var(--ink);
+    font-size: clamp(28px, 4.5vw, 42px); line-height: 1.12; letter-spacing: -0.01em;
+    margin: 0 auto 26px; max-width: 760px; text-wrap: balance;
+  }
+  .lead {
+    font-size: 19px; line-height: 1.75; color: var(--ink-2);
+    margin: 0 auto; max-width: 680px; text-wrap: pretty;
+  }
+  .divider { border: 0; border-top: 1.5px dashed var(--line-dash); margin: 36px 0; }
+
+  /* exercise */
+  .match { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
+  .col h4 {
+    font-family: var(--font-display); font-weight: 700; font-size: 13px;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3);
+    margin: 0 0 16px; text-align: left;
+  }
+  .bank { display: flex; flex-direction: column; gap: 12px; min-height: 40px; }
+  .chip {
+    padding: 15px 18px; border-radius: 14px; border: 2px solid var(--line); background: #fff;
+    font-family: var(--font-body); font-weight: 600; font-size: 15.5px; color: var(--ink);
+    cursor: grab; transition: border-color .15s, background .15s, box-shadow .15s, transform .12s;
+    user-select: none; touch-action: none; line-height: 1.3;
+  }
+  .chip:hover { border-color: var(--green); }
+  .chip:active { cursor: grabbing; transform: scale(0.99); }
+  .chip.dragging { opacity: .4; }
+  .chip.selected { border-color: var(--green); background: var(--green-soft); box-shadow: 0 0 0 4px rgba(127,182,60,0.16); }
+  .chip.placed { width: 100%; cursor: default; border-color: var(--green); background: var(--green-soft); box-shadow: none; }
+  .hint-tap { font-size: 13px; color: var(--ink-3); margin-top: 14px; line-height: 1.5; }
+
+  .slots { display: flex; flex-direction: column; gap: 12px; }
+  .slot {
+    border: 2px dashed var(--line-dash); border-radius: 14px; padding: 13px 16px; background: #FCFCFB;
+    display: flex; align-items: center; gap: 14px; min-height: 66px;
+    transition: border-color .15s, background .15s;
+  }
+  .slot.over, .slot.armed { border-color: var(--green); background: var(--green-soft); cursor: pointer; }
+  .slot__goal { font-size: 15px; font-weight: 600; color: var(--ink); flex: 1; line-height: 1.35; }
+  .slot__drop { flex: 1.05; min-height: 42px; display: flex; align-items: center; }
+  .slot__drop .ph { font-size: 13px; color: var(--ink-3); }
+  .slot.correct { border-style: solid; border-color: var(--green); background: var(--green-soft); }
+  .slot.wrong { border-style: solid; border-color: var(--danger); background: var(--danger-soft); }
+  .slot.correct .chip.placed { border-color: var(--green); }
+  .slot.wrong .chip.placed { border-color: var(--danger); background: #fff; }
+  .slot__mark { width: 24px; height: 24px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 999px; color: #fff; }
+  .slot.correct .slot__mark { background: var(--green); }
+  .slot.wrong .slot__mark { background: var(--danger); }
+
+  .foot { grid-column: 1 / -1; display: flex; align-items: center; gap: 18px; margin-top: 14px; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px; border: 2px solid var(--green);
+    background: var(--green); color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 15.5px;
+    padding: 14px 30px; border-radius: 10px; cursor: pointer; letter-spacing: .01em;
+    transition: background .15s, border-color .15s, transform .12s, box-shadow .15s;
+    box-shadow: 0 6px 16px rgba(127,182,60,0.28);
+  }
+  .btn:hover { background: var(--green-deep); border-color: var(--green-deep); box-shadow: 0 8px 20px rgba(127,182,60,0.34); }
+  .btn:active { transform: translateY(1px); box-shadow: 0 3px 10px rgba(127,182,60,0.28); }
+  .btn--ghost { background: #fff; color: var(--green-deep); box-shadow: none; }
+  .btn--ghost:hover { background: var(--green-soft); border-color: var(--green-deep); box-shadow: none; }
+  .btn:disabled { background: #EDEDED; border-color: #EDEDED; color: #B0B0B0; cursor: not-allowed; box-shadow: none; }
+  .score { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--ink-2); }
+  .score.win { color: var(--green-deep); }
+
+  svg.i { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+  .slot__mark svg.i { width: 15px; height: 15px; stroke-width: 2.4; }
+
+  @media (max-width: 640px) {
+    .match { grid-template-columns: 1fr; gap: 22px; }
+    .col--slots h4 { margin-top: 6px; }
+    .lead { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+const { useState, useRef, useEffect } = React;
+
+const PAIRS = [
+  { goal: "Розбудити аудиторію", type: "Провокаційне запитання" },
+  { goal: "Показати масштаб проблеми", type: "Неочікуваний факт" },
+  { goal: "Зробити тему живою", type: "Коротка історія" },
+  { goal: "Зламати звичне мислення", type: "Парадокс" },
+  { goal: "Одразу задати позицію", type: "Пряме твердження" },
+];
+
+function I({ name }) {
+  const p = {
+    arrow: <g><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></g>,
+    check: <polyline points="20 6 9 17 4 12" />,
+    x: <g><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></g>,
+    rotate: <g><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><polyline points="3 3 3 8 8 8" /></g>,
+  }[name];
+  return <svg className="i" viewBox="0 0 24 24">{p}</svg>;
+}
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+function reportHeight() {
+  const h = document.documentElement.scrollHeight;
+  try { window.parent.postMessage({ type: "resize-iframe", height: h }, "*"); } catch (e) {}
+}
+
+function Exercise() {
+  const order = useRef(shuffle(PAIRS.map((_, i) => i)));
+  const [bank, setBank] = useState(order.current);
+  const [placed, setPlaced] = useState({});
+  const [over, setOver] = useState(null);
+  const [checked, setChecked] = useState(false);
+  const [armed, setArmed] = useState(null);
+  const dragId = useRef(null);
+
+  useEffect(() => { reportHeight(); });
+
+  const allPlaced = Object.keys(placed).length === PAIRS.length;
+  const score = PAIRS.reduce((a, _, i) => a + (placed[i] === i ? 1 : 0), 0);
+
+  const place = (slotIdx, id) => {
+    if (id == null) return;
+    setPlaced((prev) => {
+      const next = { ...prev };
+      for (const k of Object.keys(next)) if (next[k] === id) delete next[k];
+      const displaced = next[slotIdx];
+      next[slotIdx] = id;
+      setBank((b) => {
+        let nb = b.filter((x) => x !== id);
+        if (displaced != null && !Object.values(next).includes(displaced)) nb = [...nb, displaced];
+        return nb;
+      });
+      return next;
+    });
+    setOver(null); setArmed(null); setChecked(false); dragId.current = null;
+  };
+
+  const toBank = (slotIdx) => {
+    if (checked) return;
+    const id = placed[slotIdx]; if (id == null) return;
+    setPlaced((prev) => { const n = { ...prev }; delete n[slotIdx]; return n; });
+    setBank((b) => (b.includes(id) ? b : [...b, id]));
+    setArmed(null);
+  };
+
+  const onChipClick = (id) => { if (checked) return; setArmed((a) => (a === id ? null : id)); };
+  const onSlotClick = (slotIdx) => {
+    if (checked) return;
+    if (armed != null) { place(slotIdx, armed); return; }
+    if (placed[slotIdx] != null) toBank(slotIdx);
+  };
+
+  const reset = () => {
+    order.current = shuffle(PAIRS.map((_, i) => i));
+    setBank(order.current); setPlaced({}); setChecked(false); setArmed(null);
+  };
+
+  return (
+    <div className="wrap">
+      <div className="head">
+        <span className="bar">Як вибрати тип початку?</span>
+        <h2 className="title">Підбери початок під свою мету</h2>
+        <p className="lead">Початок має відповідати темі, аудиторії та твоєму стилю. Перетягни кожен тип початку до мети, якій він найкраще служить. На сенсорному екрані — торкнись картки, потім торкнись потрібного рядка.</p>
+      </div>
+
+      <hr className="divider" />
+
+      <div className="match">
+        <div className="col">
+          <h4>Типи початку</h4>
+          <div className="bank"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={() => { const id = dragId.current; if (id == null) return;
+              setPlaced((prev) => { const n = { ...prev }; for (const k of Object.keys(n)) if (n[k] === id) delete n[k]; return n; });
+              setBank((b) => (b.includes(id) ? b : [...b, id])); dragId.current = null; }}>
+            {bank.length === 0 && <div style={{ fontSize: 13, color: "var(--ink-3)", padding: 8 }}>Усі картки розставлено →</div>}
+            {bank.map((id) => (
+              <div key={id}
+                className={`chip ${armed === id ? "selected" : ""}`}
+                draggable={!checked}
+                onClick={() => onChipClick(id)}
+                onDragStart={(e) => { dragId.current = id; setArmed(null); e.currentTarget.classList.add("dragging"); }}
+                onDragEnd={(e) => e.currentTarget.classList.remove("dragging")}>
+                {PAIRS[id].type}
+              </div>
+            ))}
+          </div>
+          <div className="hint-tap">Підказка: торкнись картки, щоб обрати її, потім торкнись рядка справа.</div>
+        </div>
+
+        <div className="col col--slots">
+          <h4>Твоя мета у виступі</h4>
+          <div className="slots">
+            {PAIRS.map((p, i) => {
+              const cid = placed[i];
+              const cls = checked
+                ? (cid === i ? "correct" : cid != null ? "wrong" : "")
+                : (over === i ? "over" : (armed != null ? "armed" : ""));
+              return (
+                <div key={i} className={`slot ${cls}`}
+                  onClick={() => onSlotClick(i)}
+                  onDragOver={(e) => { e.preventDefault(); setOver(i); }}
+                  onDragLeave={() => setOver((s) => (s === i ? null : s))}
+                  onDrop={() => place(i, dragId.current)}>
+                  <div className="slot__goal">{p.goal}</div>
+                  <I name="arrow" />
+                  <div className="slot__drop">
+                    {cid != null
+                      ? <div className="chip placed" onClick={(e) => { e.stopPropagation(); toBank(i); }} title={checked ? "" : "Прибрати"}>{PAIRS[cid].type}</div>
+                      : <span className="ph">перетягни або торкнись</span>}
+                  </div>
+                  {checked && <div className="slot__mark"><I name={cid === i ? "check" : "x"} /></div>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="foot">
+          {!checked
+            ? <button className="btn" disabled={!allPlaced} onClick={() => setChecked(true)}>Перевірити</button>
+            : <>
+                <button className="btn btn--ghost" onClick={reset}><I name="rotate" /> Спробувати ще</button>
+                <span className={`score ${score === PAIRS.length ? "win" : ""}`}>
+                  {score} / {PAIRS.length} правильно{score === PAIRS.length ? " — ідеально" : ""}
+                </span>
+              </>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Exercise />);
+window.addEventListener("load", reportHeight);
+window.addEventListener("resize", reportHeight);
+</script>
+</body>
+</html>
