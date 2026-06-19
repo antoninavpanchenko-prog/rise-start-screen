@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Перевір свою присутність</title>
+<style>html,body{margin:0;background:#FAF8F2;}body{padding:28px 18px;}</style>
+</head>
+<body>
+<!-- ====== ТРЕНАЖЕР «ПЕРЕВІР СВОЮ ПРИСУТНІСТЬ» (голос + тіло) ======
+     Вставте ВЕСЬ цей код у Rise: блок Embed → "EMBED CODE" (HTML / Add code).
+     Запис відео/аудіо живе лише в браузері користувача й нікуди не надсилається.
+     Аналіз голосу — реальний (енергія, паузи, темп, чіткість, акценти).
+     Тіло — самооцінка зі шкалою та підказками. Камера/мікрофон працюють
+     на ОПУБЛІКОВАНІЙ версії курсу (у редакторі Rise доступ часто блокується). ===== -->
+<div id="appr-root" class="appr">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+.appr{
+  --grn:#7AB81E; --grn-strong:#5F9417; --grn-bright:#8FC93A; --grn-tint:#EAF3D6; --grn-ink:#3F640F;
+  --ink-900:#1B1D18; --ink-700:#3B3F36; --ink-500:#6B6F64; --ink-400:#8B9083; --ink-300:#BCC1B4; --ink-200:#DBE0D3; --ink-100:#ECEFE6;
+  --paper:#fff; --paper-3:#EFF1E8; --warn:#E0A019; --warn-tint:#FBF1D6; --red:#C9462C; --red-tint:#F8E6E0;
+  --fd:'Montserrat',system-ui,sans-serif; --ft:'Manrope',system-ui,sans-serif;
+  font-family:var(--ft); color:var(--ink-700); max-width:780px; margin:0 auto; padding:8px 4px 16px; box-sizing:border-box; line-height:1.5;
+}
+.appr *,.appr *::before,.appr *::after{ box-sizing:border-box; }
+.appr .scr{ display:none; animation:apprfade .32s cubic-bezier(.22,.61,.36,1); }
+.appr .scr.on{ display:block; }
+@keyframes apprfade{ from{transform:translateY(8px);} to{transform:none;} }
+
+/* stepper */
+.appr .step{ display:flex; gap:8px; align-items:center; margin-bottom:22px; flex-wrap:wrap; }
+.appr .step .st{ display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; color:var(--ink-400); }
+.appr .step .st .n{ width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:var(--ink-100); color:var(--ink-400); font-family:var(--fd); font-weight:800; font-size:12px; }
+.appr .step .st.on .n{ background:var(--grn); color:#fff; } .appr .step .st.on{ color:var(--ink-900); }
+.appr .step .st.done .n{ background:var(--ink-900); color:#fff; }
+.appr .step .sep{ width:18px; height:2px; background:var(--ink-200); border-radius:2px; }
+
+/* type */
+.appr .eyb{ font-weight:700; font-size:12.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--grn-strong); margin-bottom:12px; }
+.appr h1{ font-family:var(--fd); font-weight:900; font-size:34px; line-height:1.08; letter-spacing:-.02em; color:var(--ink-900); margin:0 0 14px; }
+.appr h2{ font-family:var(--fd); font-weight:900; font-size:26px; line-height:1.12; letter-spacing:-.02em; color:var(--ink-900); margin:0 0 10px; }
+.appr h1 .mk,.appr h2 .mk{ background:var(--grn-bright); color:#fff; padding:0 .18em; border-radius:5px; }
+.appr .lead{ font-size:16.5px; color:var(--ink-500); margin:0 0 24px; max-width:62ch; }
+.appr .lead.tight{ margin-bottom:18px; }
+.appr .blocktitle{ font-family:var(--fd); font-weight:900; font-size:19px; color:var(--ink-900); margin:26px 0 4px; display:flex; align-items:center; gap:10px; }
+.appr .blocktitle .ic{ color:var(--grn-strong); } .appr .blocktitle .ic svg{ width:22px; height:22px; display:block; }
+.appr .blocknote{ font-size:13.5px; color:var(--ink-500); margin:0 0 16px; }
+
+/* video stage */
+.appr .stage{ position:relative; width:100%; background:var(--ink-900); border-radius:18px; overflow:hidden; aspect-ratio:16/9; border:2px solid var(--ink-900); }
+.appr .stage video{ width:100%; height:100%; object-fit:cover; display:block; transform:scaleX(-1); background:var(--ink-900); }
+.appr .stage video.nomir{ transform:none; }
+.appr .stage .ovl{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; color:#fff; }
+.appr .stage .cd{ font-family:var(--fd); font-weight:900; font-size:120px; color:#fff; text-shadow:0 4px 24px rgba(0,0,0,.4); animation:apprpop .9s ease; }
+@keyframes apprpop{ from{transform:scale(.5);opacity:0;} 40%{opacity:1;} to{transform:scale(1);opacity:1;} }
+.appr .stage .recdot{ position:absolute; top:14px; left:14px; display:flex; align-items:center; gap:8px; background:rgba(0,0,0,.5); padding:7px 13px; border-radius:999px; color:#fff; font-weight:700; font-size:13px; }
+.appr .stage .recdot .d{ width:10px; height:10px; border-radius:50%; background:var(--red); animation:apprblink 1s steps(2,start) infinite; }
+@keyframes apprblink{ 50%{opacity:.25;} }
+.appr .stage .tmr{ position:absolute; top:14px; right:14px; background:rgba(0,0,0,.5); padding:7px 13px; border-radius:999px; color:#fff; font-weight:800; font-size:14px; font-variant-numeric:tabular-nums; }
+.appr .stage .pbar{ position:absolute; left:0; bottom:0; height:5px; background:var(--grn); width:0%; transition:width .25s linear; }
+.appr .stage .msg{ font-size:15.5px; line-height:1.55; max-width:46ch; }
+.appr .stage .msg b{ display:block; font-family:var(--fd); font-weight:800; font-size:18px; margin-bottom:8px; }
+
+/* indicators */
+.appr .inds{ display:grid; gap:10px; margin:18px 0 4px; }
+.appr .ind{ display:flex; align-items:center; gap:12px; padding:13px 16px; border-radius:13px; border:1px solid var(--ink-200); background:var(--paper); transition:all .2s; }
+.appr .ind .dot{ flex:none; width:24px; height:24px; border-radius:50%; background:var(--ink-200); display:inline-flex; align-items:center; justify-content:center; color:#fff; transition:all .2s; }
+.appr .ind .dot svg{ width:14px; height:14px; opacity:0; transition:opacity .2s; }
+.appr .ind.ok{ border-color:var(--grn); background:var(--grn-tint); }
+.appr .ind.ok .dot{ background:var(--grn); } .appr .ind.ok .dot svg{ opacity:1; }
+.appr .ind .lab{ font-size:15px; font-weight:600; color:var(--ink-900); }
+.appr .ind .lvl{ margin-left:auto; width:90px; height:8px; border-radius:999px; background:var(--ink-100); overflow:hidden; }
+.appr .ind .lvl i{ display:block; height:100%; width:0%; background:var(--grn); border-radius:999px; transition:width .1s linear; }
+
+/* result blocks */
+.appr .param{ padding:16px 0; border-bottom:1px solid var(--ink-100); }
+.appr .param:last-child{ border-bottom:0; }
+.appr .phead{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:11px; gap:12px; }
+.appr .phead .pn{ font-family:var(--fd); font-weight:800; font-size:16px; color:var(--ink-900); }
+.appr .phead .pv{ font-size:13px; font-weight:700; }
+.appr .phead .pv.b0{ color:var(--warn); } .appr .phead .pv.b1{ color:var(--ink-500); } .appr .phead .pv.b2{ color:var(--grn-strong); }
+.appr .phead .pv.unset{ color:var(--ink-300); }
+
+/* scale */
+.appr .scale{ position:relative; }
+.appr .strack{ display:flex; gap:4px; }
+.appr .sseg{ flex:1; height:34px; border:0; border-radius:8px; background:var(--ink-100); cursor:default; position:relative; transition:all .16s; font:inherit; }
+.appr .scale.rate .sseg{ cursor:pointer; }
+.appr .scale.rate .sseg:hover{ filter:brightness(.96); transform:translateY(-1px); }
+.appr .sseg[data-b="0"].act{ background:var(--warn); } .appr .sseg[data-b="1"].act{ background:var(--ink-300); } .appr .sseg[data-b="2"].act{ background:var(--grn); }
+.appr .slabs{ display:flex; margin-top:7px; }
+.appr .slabs span{ flex:1; font-size:11.5px; font-weight:700; letter-spacing:.02em; text-transform:uppercase; color:var(--ink-400); }
+.appr .slabs span:nth-child(2){ text-align:center; } .appr .slabs span:nth-child(3){ text-align:right; }
+.appr .slabs span.on0{ color:var(--warn); } .appr .slabs span.on1{ color:var(--ink-700); } .appr .slabs span.on2{ color:var(--grn-strong); }
+.appr .pcomment{ font-size:14px; color:var(--ink-700); line-height:1.5; margin-top:11px; padding-left:13px; border-left:3px solid var(--grn); }
+.appr .pcomment.muted{ color:var(--ink-400); border-left-color:var(--ink-200); font-style:italic; }
+
+/* summary */
+.appr .summary{ border:2px solid var(--ink-900); border-radius:16px; padding:20px 22px; margin:24px 0 8px; background:var(--paper); }
+.appr .summary .se{ font-weight:700; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--grn-strong); margin-bottom:9px; }
+.appr .summary p{ margin:0; font-size:16px; line-height:1.6; color:var(--ink-900); text-wrap:pretty; }
+
+/* callout */
+.appr .callout{ display:flex; gap:13px; padding:15px 17px; border-radius:13px; background:var(--paper-3); margin:18px 0; }
+.appr .callout .ic{ flex:none; color:var(--grn-strong); } .appr .callout .ic svg{ width:21px; height:21px; }
+.appr .callout p{ margin:0; font-size:14px; color:var(--ink-700); line-height:1.5; }
+.appr .callout.warn{ background:var(--warn-tint); } .appr .callout.warn .ic{ color:var(--warn); } .appr .callout.warn p{ color:#6B4B0C; }
+
+/* buttons */
+.appr .acts{ display:flex; gap:12px; align-items:center; margin-top:24px; flex-wrap:wrap; }
+.appr .acts.center{ justify-content:center; }
+.appr button.btn{ font-family:var(--ft); font-weight:700; font-size:15.5px; border-radius:999px; cursor:pointer; padding:13px 26px; line-height:1; transition:all .13s; display:inline-flex; align-items:center; gap:9px; border:2px solid transparent; }
+.appr button.pri{ background:var(--grn); color:#fff; } .appr button.pri:hover:not(:disabled){ background:var(--grn-strong); transform:translateY(-1px); }
+.appr button.pri:disabled{ background:var(--ink-200); color:var(--ink-400); cursor:not-allowed; }
+.appr button.rec{ background:var(--red); color:#fff; } .appr button.rec:hover{ filter:brightness(.95); transform:translateY(-1px); }
+.appr button.sec{ background:transparent; border-color:var(--ink-900); color:var(--ink-900); } .appr button.sec:hover{ background:var(--ink-900); color:#fff; }
+.appr button.gho{ background:transparent; color:var(--ink-500); padding-left:6px; padding-right:6px; } .appr button.gho:hover{ color:var(--ink-900); }
+.appr .arr{ font-family:var(--fd); }
+.appr .spin{ display:inline-block; width:17px; height:17px; border:2.5px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:apprspin .7s linear infinite; }
+@keyframes apprspin{ to{ transform:rotate(360deg); } }
+
+@media(max-width:540px){
+  .appr h1{ font-size:27px; } .appr h2{ font-size:22px; }
+  .appr .stage .cd{ font-size:84px; }
+  .appr .step .st .lbl{ display:none; }
+}
+</style>
+
+<div class="step" id="appr-step"></div>
+
+<!-- SCREEN 0 — INTRO -->
+<section class="scr on" data-scr="0">
+  <div class="eyb">Тренажер</div>
+  <h1>Перевір свою <span class="mk">присутність</span></h1>
+  <p class="lead">Виголоси фрагмент своєї презентації тривалістю до <span id="intro-dur">40</span> секунд. Говори так, як говорив би перед реальною аудиторією. Після запису ти переглянеш відео й отримаєш зворотний зв’язок щодо голосу та невербальної поведінки.</p>
+  <div class="callout">
+    <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2 3 6v6c0 5 3.8 8.5 9 10 5.2-1.5 9-5 9-10V6l-9-4Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <p>Відео й звук обробляються лише у твоєму браузері, нікуди не надсилаються і зникають, щойно ти закриєш сторінку.</p>
+  </div>
+  <div class="acts"><button class="btn pri" data-go="1">Почати <span class="arr">→</span></button></div>
+</section>
+
+<!-- SCREEN 1 — PREP -->
+<section class="scr" data-scr="1">
+  <div class="eyb">Крок 1 · Підготовка</div>
+  <h2>Налаштуй кадр</h2>
+  <p class="lead tight">Переконайся, що в кадрі видно верхню частину тіла та руки. Постав камеру так, щоб ти міг вільно жестикулювати й рухатися.</p>
+  <div class="stage" id="prep-stage">
+    <video id="prep-video" autoplay muted playsinline></video>
+    <div class="ovl" id="prep-ovl"><div class="msg"><b>Доступ до камери</b>Натисни «Дозволити», коли браузер запитає доступ до камери й мікрофона.</div></div>
+  </div>
+  <div class="inds">
+    <div class="ind" id="ind-cam"><span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.2 4.3L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lab">Камера підключена</span></div>
+    <div class="ind" id="ind-mic"><span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.2 4.3L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lab">Мікрофон підключений</span><span class="lvl"><i id="mic-bar"></i></span></div>
+    <div class="ind" id="ind-frame"><span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.2 4.3L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="lab">Ти в кадрі</span></div>
+  </div>
+  <div class="acts">
+    <button class="btn gho" data-go="0">← Назад</button>
+    <button class="btn pri" id="to-record" disabled>Почати запис <span class="arr">→</span></button>
+  </div>
+</section>
+
+<!-- SCREEN 2 — RECORD -->
+<section class="scr" data-scr="2">
+  <div class="eyb">Крок 2 · Запис</div>
+  <h2>Говори на камеру</h2>
+  <div class="stage" id="rec-stage">
+    <video id="rec-video" autoplay muted playsinline></video>
+    <div class="recdot" id="rec-badge" style="display:none"><span class="d"></span>Запис</div>
+    <div class="tmr" id="rec-timer" style="display:none">0:00</div>
+    <div class="pbar" id="rec-pbar"></div>
+    <div class="ovl" id="rec-ovl"><div class="cd" id="rec-cd">3</div></div>
+  </div>
+  <div class="acts">
+    <button class="btn rec" id="stop-record" disabled><span style="width:11px;height:11px;background:#fff;border-radius:2px;display:inline-block"></span> Завершити запис</button>
+  </div>
+</section>
+
+<!-- SCREEN 3 — PLAYBACK -->
+<section class="scr" data-scr="3">
+  <div class="eyb">Крок 3 · Перегляд</div>
+  <h2>Подивись на себе збоку</h2>
+  <p class="lead tight">Переглянь запис так, ніби ти — глядач у залі. Зверни увагу на голос, поставу, жести й погляд.</p>
+  <div class="stage"><video id="play-video" controls playsinline class="nomir"></video></div>
+  <div class="acts">
+    <button class="btn gho" id="rerecord-1">↺ Записати ще раз</button>
+    <button class="btn pri" id="to-results">Отримати зворотний зв’язок <span class="arr">→</span></button>
+  </div>
+</section>
+
+<!-- SCREEN 4 — RESULTS -->
+<section class="scr" data-scr="4">
+  <div class="eyb">Крок 4 · Результати</div>
+  <h2>Як ти звучиш і виглядаєш</h2>
+
+  <div class="blocktitle"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z" stroke="currentColor" stroke-width="1.9"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span>Голос</div>
+  <div class="blocknote">Виміряно з твого запису.</div>
+  <div id="voice-params"></div>
+
+  <div class="blocktitle"><span class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5.2" r="2.4" stroke="currentColor" stroke-width="1.9"/><path d="M12 8v7m0-4 5 2M12 11 7 13m5 2-3 6m3-6 3 6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Тіло та присутність</div>
+  <div class="blocknote">Виміряно з твого відео — за рухом у кадрі.</div>
+  <div id="body-params"></div>
+
+  <div class="summary">
+    <div class="se">Загальний висновок</div>
+    <p id="overall">Заверши оцінку тіла, щоб побачити підсумок.</p>
+  </div>
+
+  <div class="acts">
+    <button class="btn sec" id="rerecord-2">↺ Записати ще раз</button>
+    <button class="btn gho" id="rewatch">Переглянути відео ще раз</button>
+  </div>
+</section>
+
+<script>
+(function(){
+  var root=document.getElementById('appr-root');
+  var DURATION=40; // секунд
+  var CHK='<svg viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.2 4.3L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function $(s){ return root.querySelector(s); }
+  function $all(s){ return Array.prototype.slice.call(root.querySelectorAll(s)); }
+
+  document.getElementById('intro-dur').textContent=DURATION;
+
+  /* ---- stepper ---- */
+  var STEPS=['Підготовка','Запис','Перегляд','Результати'];
+  var cur=0;
+  function renderStep(){
+    var el=$('#appr-step');
+    if(cur===0){ el.style.display='none'; return; }
+    el.style.display='flex';
+    var active=cur-1;
+    el.innerHTML=STEPS.map(function(lbl,i){
+      var cls=i<active?'done':(i===active?'on':'');
+      return '<span class="st '+cls+'"><span class="n">'+(i<active?'\u2713':(i+1))+'</span><span class="lbl">'+lbl+'</span></span>'+
+        (i<STEPS.length-1?'<span class="sep"></span>':'');
+    }).join('');
+  }
+  function show(n){
+    cur=n;
+    $all('.scr').forEach(function(el){ el.classList.toggle('on', +el.dataset.scr===n); });
+    renderStep();
+    if(window.scrollTo) window.scrollTo(0,0);
+  }
+
+  /* ================= MEDIA ================= */
+  var stream=null, recorder=null, chunks=[], recordedBlob=null, recordedURL=null;
+  var audioCtx=null, micRAF=null, frameRAF=null;
+  var bodySamples=[], prevLuma=null, bodyInt=null, bodyCanvas=null, bodyCx=null;
+
+  function setInd(id,ok){ var e=$('#'+id); if(e) e.classList.toggle('ok',!!ok); }
+
+  async function startCamera(){
+    var ovl=$('#prep-ovl');
+    // iframe без дозволу camera/microphone (типова причина в редакторі Rise і прев'ю)
+    var blockedByFrame=false;
+    try{ if(window.self!==window.top){
+      var fe=window.frameElement;
+      if(fe){ var al=(fe.getAttribute('allow')||''); if(al.indexOf('camera')===-1) blockedByFrame=true; }
+    }}catch(e){ /* cross-origin frame: не можемо прочитати, але доступ може бути заблокований */ }
+
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      var insecure = !window.isSecureContext;
+      ovl.innerHTML='<div class="msg"><b>Камера недоступна</b>'+
+        (insecure?'Сторінка відкрита не через захищене з’єднання (https). Камера працює лише на опублікованому курсі.'
+                 :'Цей браузер не підтримує запис. Відкрий урок у Chrome або Edge на комп’ютері.')+
+        '</div>';
+      ovl.style.display='flex'; return;
+    }
+    ovl.innerHTML='<div class="msg"><b>Вмикаю камеру…</b>Натисни «Дозволити» у вікні браузера.</div>';
+    ovl.style.display='flex';
+    try{
+      stream=await navigator.mediaDevices.getUserMedia({video:{width:{ideal:1280},height:{ideal:720},facingMode:'user'},audio:true});
+    }catch(e){
+      var name=e&&e.name;
+      var why = (name==='NotAllowedError'||name==='SecurityError') ?
+                  (blockedByFrame
+                    ? 'Цей конструктор блокує камеру. Відкрий урок на <b>опублікованій версії (Preview / Publish)</b> курсу Rise — там доступ працює.'
+                    : 'Доступ заборонено. Дозволь камеру й мікрофон для цього сайту (іконка камери в адресному рядку) і натисни «Спробувати ще раз».')
+              : (name==='NotFoundError'||name==='DevicesNotFoundError') ? 'Камеру або мікрофон не знайдено. Підключи пристрій і спробуй ще раз.'
+              : (name==='NotReadableError') ? 'Камеру вже використовує інша програма (Zoom, Meet тощо). Закрий її і спробуй ще раз.'
+              : 'Не вдалося увімкнути камеру. Відкрий урок на опублікованій версії курсу в Chrome або Edge.';
+      ovl.innerHTML='<div class="msg"><b>Немає доступу до камери</b>'+why+
+        '<div style="margin-top:16px"><button class="btn pri" id="cam-retry" type="button">Спробувати ще раз</button></div></div>';
+      ovl.style.display='flex';
+      var rt=$('#cam-retry'); if(rt) rt.addEventListener('click',function(){ startCamera(); });
+      return;
+    }
+    ovl.style.display='none';
+    $('#prep-video').srcObject=stream;
+    $('#rec-video').srcObject=stream;
+    setInd('ind-cam', stream.getVideoTracks().length>0);
+    setInd('ind-mic', stream.getAudioTracks().length>0);
+    startMicMeter();
+    startFrameCheck();
+    refreshReady();
+  }
+
+  function startMicMeter(){
+    try{
+      audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
+      var src=audioCtx.createMediaStreamSource(stream);
+      var an=audioCtx.createAnalyser(); an.fftSize=512; src.connect(an);
+      var buf=new Uint8Array(an.fftSize);
+      var loud=false;
+      (function loop(){
+        an.getByteTimeDomainData(buf);
+        var sum=0; for(var i=0;i<buf.length;i++){ var v=(buf[i]-128)/128; sum+=v*v; }
+        var rms=Math.sqrt(sum/buf.length);
+        var pct=Math.min(100, Math.round(rms*320));
+        var bar=$('#mic-bar'); if(bar) bar.style.width=pct+'%';
+        if(rms>0.02) loud=true;
+        if(loud) setInd('ind-mic', true);
+        micRAF=requestAnimationFrame(loop);
+      })();
+    }catch(e){}
+  }
+
+  // "у кадрі": перевіряємо, що картинка не чорна і є варіація яскравості
+  function startFrameCheck(){
+    var v=$('#prep-video');
+    var c=document.createElement('canvas'); c.width=64; c.height=36; var cx=c.getContext('2d');
+    function loop(){
+      try{
+        if(v.videoWidth){
+          cx.drawImage(v,0,0,64,36);
+          var d=cx.getImageData(0,0,64,36).data, n=64*36, sum=0, sq=0;
+          for(var i=0;i<d.length;i+=4){ var l=(d[i]*0.3+d[i+1]*0.59+d[i+2]*0.11); sum+=l; sq+=l*l; }
+          var mean=sum/n, varr=sq/n-mean*mean;
+          // кадр активний: не надто темний і має деталі
+          setInd('ind-frame', mean>26 && varr>120);
+          refreshReady();
+        }
+      }catch(e){}
+      frameRAF=requestAnimationFrame(loop);
+    }
+    loop();
+  }
+
+  function refreshReady(){
+    var ok = $('#ind-cam').classList.contains('ok') && $('#ind-mic').classList.contains('ok') && $('#ind-frame').classList.contains('ok');
+    $('#to-record').disabled=!ok;
+  }
+
+  /* ---- recording with countdown ---- */
+  var timerInt=null, cdInt=null, autoTO=null;
+  function beginCountdown(){
+    show(2);
+    var cd=$('#rec-cd'), ovl=$('#rec-ovl'); var n=3;
+    cd.textContent=n; ovl.style.display='flex';
+    $('#stop-record').disabled=true;
+    cdInt=setInterval(function(){
+      n--;
+      if(n<=0){ clearInterval(cdInt); ovl.style.display='none'; startRecording(); }
+      else { cd.textContent=n; cd.style.animation='none'; void cd.offsetWidth; cd.style.animation='apprpop .9s ease'; }
+    },1000);
+  }
+
+  function pickMime(){
+    var opts=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4'];
+    for(var i=0;i<opts.length;i++){ if(window.MediaRecorder && MediaRecorder.isTypeSupported(opts[i])) return opts[i]; }
+    return '';
+  }
+
+  function startRecording(){
+    chunks=[]; recordedBlob=null;
+    var mime=pickMime();
+    try{ recorder = mime ? new MediaRecorder(stream,{mimeType:mime}) : new MediaRecorder(stream); }
+    catch(e){ recorder=new MediaRecorder(stream); }
+    recorder.ondataavailable=function(ev){ if(ev.data&&ev.data.size>0) chunks.push(ev.data); };
+    recorder.onstop=function(){
+      recordedBlob=new Blob(chunks,{type:(recorder.mimeType||'video/webm')});
+      if(recordedURL) URL.revokeObjectURL(recordedURL);
+      recordedURL=URL.createObjectURL(recordedBlob);
+      var pv=$('#play-video'); pv.src=recordedURL; pv.load();
+      show(3);
+    };
+    recorder.start();
+    startBodySampler();
+    $('#rec-badge').style.display='flex';
+    $('#rec-timer').style.display='block';
+    $('#stop-record').disabled=false;
+
+    var t0=Date.now();
+    $('#rec-pbar').style.width='0%';
+    timerInt=setInterval(function(){
+      var s=(Date.now()-t0)/1000;
+      var mm=Math.floor(s/60), ss=Math.floor(s%60);
+      $('#rec-timer').textContent=mm+':'+(ss<10?'0':'')+ss;
+      $('#rec-pbar').style.width=Math.min(100,(s/DURATION)*100)+'%';
+    },200);
+    autoTO=setTimeout(stopRecording, DURATION*1000);
+  }
+
+  function stopRecording(){
+    clearInterval(timerInt); clearTimeout(autoTO);
+    stopBodySampler();
+    $('#rec-badge').style.display='none';
+    $('#stop-record').disabled=true;
+    try{ if(recorder && recorder.state!=='inactive') recorder.stop(); }catch(e){}
+  }
+
+  /* ================= BODY MOTION SAMPLING ================= */
+  function startBodySampler(){
+    bodySamples=[]; prevLuma=null;
+    var W=96,H=54;
+    bodyCanvas=document.createElement('canvas'); bodyCanvas.width=W; bodyCanvas.height=H;
+    bodyCx=bodyCanvas.getContext('2d',{willReadFrequently:true});
+    var v=$('#rec-video');
+    bodyInt=setInterval(function(){
+      if(!v.videoWidth) return;
+      try{
+        bodyCx.drawImage(v,0,0,W,H);
+        var d=bodyCx.getImageData(0,0,W,H).data;
+        var luma=new Float32Array(W*H), bright=0;
+        for(var i=0,p=0;i<d.length;i+=4,p++){ var l=d[i]*0.3+d[i+1]*0.59+d[i+2]*0.11; luma[p]=l; bright+=l; }
+        bright/=(W*H);
+        if(prevLuma){
+          var total=0,sx=0,head=0,lhand=0,rhand=0;
+          for(var q=0;q<luma.length;q++){
+            var diff=Math.abs(luma[q]-prevLuma[q]);
+            if(diff<8) continue; // шумовий поріг
+            total+=diff;
+            var x=q%W, y=(q/W)|0, fx=x/W, fy=y/H;
+            sx+=diff*x;
+            if(fy<0.34 && fx>0.3 && fx<0.7) head+=diff;
+            if(fy>0.45 && fx<0.42) lhand+=diff;
+            if(fy>0.45 && fx>0.58) rhand+=diff;
+          }
+          var npx=W*H;
+          bodySamples.push({
+            mot: total/npx,
+            cx: total>0 ? (sx/total)/W : 0.5,
+            head: total>0 ? head/total : 0,
+            hands: total>0 ? (lhand+rhand)/total : 0,
+            bright: bright
+          });
+        }
+        prevLuma=luma;
+      }catch(e){}
+    },100);
+  }
+  function stopBodySampler(){ if(bodyInt){ clearInterval(bodyInt); bodyInt=null; } }
+
+  function analyzeBody(){
+    var s=bodySamples;
+    if(!s || s.length<6) return null;
+    var avgBright=avg(s.map(function(x){return x.bright;}));
+    if(avgBright<14) return {dark:true};
+    var mots=s.map(function(x){return x.mot;});
+    var activity=avg(mots);
+    var varb= activity>0 ? std(mots)/activity : 0;
+    var swayX=std(s.map(function(x){return x.cx;}));
+    var headRatio=avg(s.map(function(x){return x.head;}));
+    var handRatio=avg(s.map(function(x){return x.hands;}));
+    return { activity:activity, varb:varb, swayX:swayX, headRatio:headRatio, handRatio:handRatio, n:s.length };
+  }
+
+  function scoreBody(b){
+    var R={};
+    if(!b || b.dark){
+      var na={band:1, comment:(b&&b.dark)
+        ? 'У кадрі надто темно, щоб проаналізувати рух. Додай світла спереду й запиши ще раз.'
+        : 'Не вдалося проаналізувати відео. Перевір камеру й запиши ще раз.'};
+      ['pose','gestures','gaze','move'].forEach(function(k){ R[k]=na; });
+      return R;
+    }
+    // ПОЗА — горизонтальне зміщення центру руху (похитування)
+    if(b.swayX>0.16) R.pose={band:0, comment:'Ти помітно зміщуєшся з боку в бік — це зчитується як хвилювання. Знайди стійку опору на дві ноги.'};
+    else if(b.swayX>0.09) R.pose={band:1, comment:'Поза загалом стабільна, але є коливання. Став ноги стійкіше й заземлись.'};
+    else R.pose={band:2, comment:'Стійка, стабільна поза — ти тримаєшся зібрано.'};
+    // ЖЕСТИ — рух у зонах рук
+    if(b.handRatio<0.14) R.gestures={band:0, comment:'Жести майже не помітні — руки нерухомі. Додай рухи рук у зоні між грудьми й талією.'};
+    else if(b.handRatio>0.52 && b.activity>4) R.gestures={band:1, comment:'Жестів багато й вони метушливі. Роби їх повільніше й осмисленіше.'};
+    else R.gestures={band:2, comment:'Ти жестикулюєш доречно — руки підкріплюють слова.'};
+    // ПОГЛЯД — рух у зоні голови (повертання/опускання)
+    if(b.headRatio>0.5) R.gaze={band:0, comment:'Ти часто повертаєш або опускаєш голову — контакт з аудиторією переривається. Тримай погляд у камері.'};
+    else if(b.headRatio>0.33) R.gaze={band:1, comment:'Контакт переважно є, але інколи відвертаєшся. Частіше повертайся поглядом до камери.'};
+    else R.gaze={band:2, comment:'Голова й погляд спрямовані в камеру стабільно — контакт зберігається.'};
+    // РУХ — загальна активність і її рівність
+    if(b.activity<0.7) R.move={band:1, comment:'Ти майже застиг у кадрі. Трохи руху з наміром додасть енергії — крок під зміну думки.'};
+    else if(b.varb>1.6) R.move={band:0, comment:'Рух нерівний і смикається. Рухайся плавніше й цілеспрямованіше.'};
+    else R.move={band:2, comment:'Рух помірний і осмислений — він підтримує ритм, а не відволікає.'};
+    return R;
+  }
+
+  $('#stop-record').addEventListener('click',stopRecording);
+  $('#to-record').addEventListener('click',beginCountdown);
+
+  /* ================= VOICE ANALYSIS ================= */
+  function avg(a){ if(!a.length) return 0; for(var i=0,s=0;i<a.length;i++) s+=a[i]; return s/a.length; }
+  function std(a){ if(a.length<2) return 0; var m=avg(a),s=0; for(var i=0;i<a.length;i++){ var d=a[i]-m; s+=d*d; } return Math.sqrt(s/a.length); }
+  function clamp(v,a,b){ return v<a?a:(v>b?b:v); }
+
+  async function analyzeVoice(blob){
+    try{
+      var ab=await blob.arrayBuffer();
+      var AC=window.AudioContext||window.webkitAudioContext;
+      var ctx=new AC();
+      var buf=await new Promise(function(res,rej){ ctx.decodeAudioData(ab.slice(0), res, rej); });
+      var data=buf.getChannelData(0), sr=buf.sampleRate, dur=buf.duration;
+      var hop=Math.max(1,Math.round(sr*0.02));
+      var rms=[], zcr=[];
+      for(var i=0;i+hop<=data.length;i+=hop){
+        var s=0, zc=0, prev=data[i];
+        for(var j=0;j<hop;j++){ var v=data[i+j]; s+=v*v; if((v>=0)!==(prev>=0)) zc++; prev=v; }
+        rms.push(Math.sqrt(s/hop)); zcr.push(zc/hop);
+      }
+      ctx.close();
+      var n=rms.length; if(n<5) return null;
+      var sorted=rms.slice().sort(function(a,b){return a-b;});
+      var floor=sorted[Math.floor(n*0.1)]||0, peak=sorted[Math.floor(n*0.95)]||0.0001;
+      var thr=Math.max(floor*2.2, peak*0.14, 0.004);
+      var voiced=rms.map(function(r){ return r>thr; });
+      var voicedIdx=[]; voiced.forEach(function(b,i){ if(b) voicedIdx.push(i); });
+      var voicedFrames=voicedIdx.length;
+      var speakRatio=voicedFrames/n;
+      // pauses (runs of silence >= 350ms = ~17 frames) between speech
+      var pauses=0, run=0, started=false, pauseLens=[];
+      for(var k=0;k<voiced.length;k++){
+        if(voiced[k]){ if(run>=17 && started) { pauses++; pauseLens.push(run*0.02); } run=0; started=true; }
+        else run++;
+      }
+      // onsets (silence->voice transitions) ~ speech bursts
+      var onsets=0; for(var m=1;m<voiced.length;m++){ if(voiced[m]&&!voiced[m-1]) onsets++; }
+      var onsetRate=onsets/Math.max(dur,0.5);
+      var voicedRms=voicedIdx.map(function(i){return rms[i];});
+      var voicedZcr=voicedIdx.map(function(i){return zcr[i];});
+      var meanE=avg(voicedRms), peakNorm=meanE/(peak||1);
+      var cv= meanE>0 ? std(voicedRms)/meanE : 0;
+      var meanZ=avg(voicedZcr);
+      return { dur:dur, speakRatio:speakRatio, pauses:pauses, pauseLens:pauseLens,
+               onsetRate:onsetRate, meanE:meanE, peakNorm:peakNorm, cv:cv, meanZ:meanZ, voicedFrames:voicedFrames };
+    }catch(e){ return null; }
+  }
+
+  // map metrics -> {band, comment} per voice param
+  function scoreVoice(a){
+    var R={};
+    if(!a){
+      var na={band:1, comment:'Не вдалося розібрати звук запису. Перевір мікрофон і спробуй ще раз.'};
+      ['tempo','pauses','energy','clarity','accents'].forEach(function(k){ R[k]=na; });
+      return R;
+    }
+    // TEMPO via onsetRate (bursts/sec) + speakRatio
+    var or=a.onsetRate;
+    if(a.speakRatio<0.25) R.tempo={band:0, comment:'Мовлення переривчасте — ти говориш мало й з великими провалами. Тримай потік думки рівніше.'};
+    else if(or>4.6) R.tempo={band:0, comment:'Темп зависокий — слова йдуть суцільним потоком, аудиторії важко встигати. Свідомо пригальмовуй.'};
+    else if(or<1.5) R.tempo={band:1, comment:'Темп повільний — є ризик, що енергія висловлювання просідає. Додай трохи руху вперед.'};
+    else if(or>3.6) R.tempo={band:1, comment:'Темп жвавий. Стеж, щоб наприкінці фраз не починати прискорюватися.'};
+    else R.tempo={band:2, comment:'Темп комфортний і рівний — за тобою легко стежити.'};
+    // PAUSES count over duration
+    var pPerMin=a.pauses/(a.dur/60);
+    if(a.pauses<=1) R.pauses={band:0, comment:'Між ключовими думками майже немає пауз — слухачеві складніше помітити головне. Тримай тишу 1–2 секунди після важливого.'};
+    else if(pPerMin>26) R.pauses={band:1, comment:'Пауз багато й вони дроблять думку. Залишай їх лише між значущими блоками.'};
+    else R.pauses={band:2, comment:'Ти тримаєш паузи між думками — це допомагає виділити головне.'};
+    // ENERGY via peakNorm + speakRatio (gain-robust-ish)
+    if(a.peakNorm<0.30 || a.speakRatio<0.3) R.energy={band:0, comment:'Голос звучить пригашено й нерівно. Додай гучності та опори на дихання, щоб утримувати увагу.'};
+    else if(a.peakNorm<0.46) R.energy={band:1, comment:'Енергії в цілому вистачає, але місцями голос провисає. Тримай рівень до кінця фрази.'};
+    else R.energy={band:2, comment:'Голос звучить наповнено й упевнено — енергія працює на тебе.'};
+    // CLARITY via zero-crossing rate of voiced frames (consonant content) + dynamic
+    var z=a.meanZ;
+    if(z<0.06) R.clarity={band:1, comment:'Слова місцями зливаються — артикулюй виразніше, особливо приголосні в кінці слів.'};
+    else if(z>0.5) R.clarity={band:1, comment:'У записі багато шуму або сибілянтів. Перевір мікрофон і не «з’їдай» закінчення.'};
+    else R.clarity={band:2, comment:'Дикція чітка — слова легко розібрати.'};
+    // ACCENTS via coefficient of variation of loudness
+    if(a.cv<0.28) R.accents={band:0, comment:'Інтонація майже рівна — ключові слова не виділяються голосом. Підкреслюй головне гучністю й висотою.'};
+    else if(a.cv<0.45) R.accents={band:1, comment:'Голосові акценти є, але стримані. Сміливіше виділяй найважливіші слова.'};
+    else R.accents={band:2, comment:'Ти виділяєш ключові слова голосом — це працює на повідомлення.'};
+    return R;
+  }
+
+  /* ================= PARAM DEFS ================= */
+  var VOICE_DEFS=[['tempo','Темп'],['pauses','Паузи'],['energy','Енергія'],['clarity','Чіткість'],['accents','Голосові акценти']];
+  var BODY_DEFS=[ {key:'pose',name:'Поза'}, {key:'gestures',name:'Жести'}, {key:'gaze',name:'Погляд'}, {key:'move',name:'Рух'} ];
+  var BANDLAB=['Слабко','Достатньо','Сильно'];
+
+  var voiceRes=null;       // scored voice
+  var bodyRes=null;        // scored body (auto from video)
+
+  /* ---- render measured (voice) scale ---- */
+  function voiceParamHTML(key,name,r){
+    var b=r.band;
+    return '<div class="param"><div class="phead"><span class="pn">'+name+'</span><span class="pv b'+b+'">'+BANDLAB[b]+'</span></div>'+
+      '<div class="scale"><div class="strack">'+
+        '<button class="sseg" data-b="0"></button>'+
+        '<button class="sseg" data-b="1"></button>'+
+        '<button class="sseg" data-b="2"></button>'+
+      '</div><div class="slabs"><span class="'+(b===0?'on0':'')+'">Слабко</span><span class="'+(b===1?'on1':'')+'">Достатньо</span><span class="'+(b===2?'on2':'')+'">Сильно</span></div></div>'+
+      '<div class="pcomment">'+r.comment+'</div></div>';
+  }
+  function renderVoice(){
+    var html=VOICE_DEFS.map(function(d){ return voiceParamHTML(d[0],d[1],voiceRes[d[0]]); }).join('');
+    $('#voice-params').innerHTML=html;
+    // mark active segments
+    VOICE_DEFS.forEach(function(d,idx){
+      var params=$all('#voice-params .param')[idx];
+      var b=voiceRes[d[0]].band;
+      params.querySelectorAll('.sseg').forEach(function(seg){ seg.classList.toggle('act', +seg.dataset.b===b); });
+    });
+  }
+
+  /* ---- render measured (body) scales — auto from video ---- */
+  function renderBody(){
+    var html=BODY_DEFS.map(function(d){ return voiceParamHTML(d.key,d.name,bodyRes[d.key]); }).join('');
+    $('#body-params').innerHTML=html;
+    BODY_DEFS.forEach(function(d,idx){
+      var params=$all('#body-params .param')[idx];
+      var b=bodyRes[d.key].band;
+      params.querySelectorAll('.sseg').forEach(function(seg){ seg.classList.toggle('act', +seg.dataset.b===b); });
+    });
+  }
+
+  /* ---- overall summary ---- */
+  function renderOverall(){
+    var el=$('#overall');
+    if(!voiceRes||!bodyRes){ el.textContent='Заверши аналіз, щоб побачити підсумок.'; return; }
+    var items=[];
+    VOICE_DEFS.forEach(function(d){ items.push({name:d[1].toLowerCase(), band:voiceRes[d[0]].band}); });
+    BODY_DEFS.forEach(function(d){ items.push({name:d.name.toLowerCase(), band:bodyRes[d.key].band}); });
+    var strong=items.filter(function(i){return i.band===2;}).map(function(i){return i.name;});
+    var weak=items.filter(function(i){return i.band===0;}).map(function(i){return i.name;});
+    var mid=items.filter(function(i){return i.band===1;}).map(function(i){return i.name;});
+    if(!weak.length) weak=mid;
+
+    function list(arr,max){ arr=arr.slice(0,max||3); if(arr.length<=1) return arr[0]||''; return arr.slice(0,-1).join(', ')+' та '+arr[arr.length-1]; }
+
+    var parts=[];
+    if(strong.length) parts.push('Найкраще працюють '+list(strong,3)+'.');
+    else parts.push('Поки що жоден параметр не вийшов на рівень «сильно» — але це нормально для першого дубля.');
+    if(weak.length) parts.push('Найбільше уваги попроси '+list(weak,3)+' — зараз саме вони послаблюють твою присутність.');
+    var head = strong.length>=3 ? 'Твоя подача виглядає зібраною та енергійною. '
+             : strong.length>=1 ? 'Подача загалом робоча. '
+             : 'Є над чим попрацювати — і це найкорисніший стан для тренування. ';
+    el.textContent = head + parts.join(' ');
+  }
+
+  /* ---- results entry ---- */
+  $('#to-results').addEventListener('click',async function(){
+    var btn=this; var old=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="spin"></span> Аналізую…';
+    var a = recordedBlob ? await analyzeVoice(recordedBlob) : null;
+    voiceRes=scoreVoice(a);
+    bodyRes=scoreBody(analyzeBody());
+    renderVoice(); renderBody(); renderOverall();
+    btn.disabled=false; btn.innerHTML=old;
+    // copy recorded video into results rewatch source
+    show(4);
+  });
+
+  /* ---- re-record / rewatch ---- */
+  function resetToRecord(){
+    recordedBlob=null;
+    if(recordedURL){ URL.revokeObjectURL(recordedURL); recordedURL=null; }
+    voiceRes=null; bodyRes=null;
+    // go to prep so camera/indicators re-confirm; stream still alive
+    show(1); refreshReady();
+  }
+  $('#rerecord-1').addEventListener('click',resetToRecord);
+  $('#rerecord-2').addEventListener('click',resetToRecord);
+  $('#rewatch').addEventListener('click',function(){ show(3); var pv=$('#play-video'); try{ pv.currentTime=0; pv.play(); }catch(e){} });
+
+  /* ---- NAV ---- */
+  root.addEventListener('click',function(e){
+    var b=e.target.closest('[data-go]'); if(!b) return;
+    var to=+b.dataset.go;
+    show(to);
+    if(to===1 && !stream) startCamera();
+  });
+
+  show(0);
+})();
+</script>
+</div>
+
+</body>
+</html>
